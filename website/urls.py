@@ -3,5 +3,6 @@ from website import views
 
 urlpatterns = [
     url(r'^$', views.index, name = 'index'),
-    url(r'^register', views.registration, name= 'register')
+    url(r'^register', views.registration, name= 'register'),
+    url(r'^verify', views.verification, name= 'verify')
 ]
