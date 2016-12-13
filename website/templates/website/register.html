@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title> Login </title>
+    </head>
+    <body>
+        <form action="" method = "POST">
+            {% csrf_token %}
+            <div>
+            {% for figure in form %}
+            {{figure.label_tag}}
+            <div>
+                {{figure}}
+            </div>
+            </div>
+            {% endfor %}
+            <button type="submit"> Register </button>
+    </body>
