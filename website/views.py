@@ -2,9 +2,11 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
-from django.http import HttpResponse
-from website.forms import SignUp, VerIfy
-from website.models import SignNer
+from django.http import HttpResponse, HttpResponseRedirect
+from website.forms import SignUp, VerIfy, EvenTform
+from website.models import SignNer, EvenT
+from django.core.urlresolvers import reverse
+
 
 # Create your views here.
 
@@ -33,7 +35,9 @@ def verification(request):
             latter = new_form.cleaned_data
             try:
                 SignNer.objects.get(username=latter['username'], password=latter['password'])
-                return HttpResponse("you have registered successfully")
+                usernamer = latter['username']
+                request.session['usernamer'] = usernamer
+                return HttpResponseRedirect(reverse('event'))
             except SignNer.DoesNotExist:
                 return HttpResponse("you may have entered wrong information")
         else:
@@ -41,6 +45,27 @@ def verification(request):
     else:
         new_form = VerIfy()
     return render(request, 'website/login.html', {'new_form': new_form})
+
+def event(request):
+    usernamer = request.session['usernamer']
+    if request.method == 'POST':
+        signer = SignNer.objects.get(username = usernamer)
+        newest_form = EvenTform(data=request.POST)
+        if newest_form.is_valid():
+            event_form = newest_form.save(commit=False)
+            event_form.user = signer
+            event_form.save()
+        else:
+            return HttpResponse("information is not in required format")
+    else:
+        newest_form = EvenTform()
+    return render(request, 'website/event.html', {'newest_form': newest_form, 'usernamer' : usernamer})
+
+
+
+
+
+
 
 
 

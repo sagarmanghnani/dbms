@@ -13,4 +13,12 @@ class SignNer(models.Model):
 
     def __str__(self):
         return self.username
+class EvenT(models.Model):
+    user = models.ForeignKey(SignNer, on_delete=models.CASCADE)
+    eventname = models.CharField(max_length=40)
+    eventplace = models.CharField(max_length = 50)
+
+    def __str__(self):
+        return self.eventname
+
 
