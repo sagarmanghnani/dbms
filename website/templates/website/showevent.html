@@ -1,0 +1,16 @@
+<html>
+<head><title> Showevent </title></head>
+<body>
+<ul>
+{% for fields in sh_event %}
+    <li>
+        {{ fields.user }}
+        {{ fields.eventname }}
+        {{ fields.eventplace }}
+    </li>
+
+{% endfor %}
+
+</ul>
+</body>
+</html>
