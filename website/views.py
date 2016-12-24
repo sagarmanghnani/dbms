@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from website.forms import SignUp, VerIfy, EvenTform
+from website.forms import SignUp, VerIfy, EvenTform, ChoIce
 from website.models import SignNer, EvenT
 from django.core.urlresolvers import reverse
 
@@ -88,6 +88,46 @@ def demo(request):
         global flag
         flag = False
     return render(request, 'website/signout.html', {'usernamer' : usernamer})
+
+def trial(request):
+    if request.method == 'POST':
+        kail = ChoIce(data= request.POST)
+        if kail.is_valid():
+            lagad = kail.cleaned_data
+            kabad = lagad['topics']
+            lappad = kabad.eventname
+            request.session['lappad'] = lappad
+            return HttpResponse("received" + kabad.eventplace)
+        else:
+            return HttpResponse("data is not in required format")
+    else:
+        kail = ChoIce()
+    return render(request, 'website/trial.html', { 'kail' : kail })
+
+def edit_form(request):
+    lappad = request.session['lappad']
+    thappad = EvenT.objects.get(eventname= lappad)
+    if request.method == 'POST':
+        keyform = EvenTform(data=request.POST, instance=thappad)
+        if keyform.is_valid():
+            saver = keyform.save()
+            return HttpResponse("information edited")
+        else:
+            return HttpResponse("information not in desired format")
+    else:
+        keyform = EvenTform(instance=thappad)
+    return render(request, 'website/edit.html', {'thappad' : thappad, 'lappad' : lappad, 'keyform' : keyform})
+
+
+
+
+
+
+
+
+
+
+
 
 
 

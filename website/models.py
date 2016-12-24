@@ -17,6 +17,7 @@ class EvenT(models.Model):
     user = models.ForeignKey(SignNer, on_delete=models.CASCADE)
     eventname = models.CharField(max_length=40)
     eventplace = models.CharField(max_length = 50)
+    about_event = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
         return self.eventname

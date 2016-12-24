@@ -1,0 +1,17 @@
+<html>
+    <head><title> trial </title></head>
+    <body>
+        <div>
+        <form action= "" method="POST">
+            {% csrf_token %}
+            {% for field in  kail %}
+            {{field.label_tag}}
+            <div>
+                {{field}}
+            </div>
+            {% endfor %}
+        <button type="submit"> Submit </button>
+        </form>
+        </div>
+    </body>
+</html>
