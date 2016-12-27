@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^showevents', views.showevents, name='showevents'),
     url(r'^trial', views.trial, name='trial'),
     url(r'^edit', views.edit_form, name='edit_form'),
+    url(r'^another', views.another, name='another'),
 ]

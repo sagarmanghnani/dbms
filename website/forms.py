@@ -28,5 +28,19 @@ class EvenTform(forms.ModelForm):
         }
 class ChoIce(forms.Form):
     topics = forms.ModelChoiceField(queryset=EvenT.objects.all(), widget=forms.RadioSelect)
-    name = forms.CharField(max_length=20)
+
+    def __init__(self, us, *args, **kwargs):
+        super(ChoIce,self).__init__(*args, **kwargs)
+        self.fields['topics'].queryset = EvenT.objects.filter(user=us)
+
+class kidhar(forms.Form):
+    eventtt = forms.ModelChoiceField(queryset= EvenT.objects.all())
+
+    def __init__(self, u, *args, **kwargs):
+        super(kidhar, self).__init__(*args, **kwargs)
+        self.fields['eventtt'].queryset = EvenT.objects.filter(user=u)
+
+
+
+
 

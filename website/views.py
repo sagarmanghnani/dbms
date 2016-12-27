@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from website.forms import SignUp, VerIfy, EvenTform, ChoIce
+from website.forms import SignUp, VerIfy, EvenTform, ChoIce,kidhar
 from website.models import SignNer, EvenT
 from django.core.urlresolvers import reverse
 
@@ -90,8 +90,9 @@ def demo(request):
     return render(request, 'website/signout.html', {'usernamer' : usernamer})
 
 def trial(request):
+    usernamer = request.session['usernamer']
     if request.method == 'POST':
-        kail = ChoIce(data= request.POST)
+        kail = ChoIce(data=request.POST, us=SignNer.objects.get(username=usernamer))
         if kail.is_valid():
             lagad = kail.cleaned_data
             kabad = lagad['topics']
@@ -101,8 +102,8 @@ def trial(request):
         else:
             return HttpResponse("data is not in required format")
     else:
-        kail = ChoIce()
-    return render(request, 'website/trial.html', { 'kail' : kail })
+        kail = ChoIce(us=SignNer.objects.get(username=usernamer))
+    return render(request, 'website/trial.html', { 'kail' : kail,'usernamer' : usernamer })
 
 def edit_form(request):
     lappad = request.session['lappad']
@@ -117,6 +118,19 @@ def edit_form(request):
     else:
         keyform = EvenTform(instance=thappad)
     return render(request, 'website/edit.html', {'thappad' : thappad, 'lappad' : lappad, 'keyform' : keyform})
+
+def another(request):
+    usernamer = request.session['usernamer']
+    if request.method == 'POST':
+        d = kidhar(u=SignNer.objects.get(username=usernamer))
+    else:
+        d = kidhar(u=SignNer.objects.get(username=usernamer))
+        return render(request, 'website/another.html', {'usernamer' : usernamer, 'd' : d})
+
+
+
+
+
 
 
 
