@@ -40,6 +40,13 @@ class kidhar(forms.Form):
         super(kidhar, self).__init__(*args, **kwargs)
         self.fields['eventtt'].queryset = EvenT.objects.filter(user=u)
 
+class DeleTe(forms.Form):
+    deletion = forms.ModelMultipleChoiceField(queryset=EvenT.objects.all(), widget=forms.CheckboxSelectMultiple)
+
+    def __init__(self, user, *args, **kwargs):
+        super(DeleTe, self).__init__(*args, **kwargs)
+        self.fields['deletion'].queryset = EvenT.objects.filter(user=user)
+
 
 
 

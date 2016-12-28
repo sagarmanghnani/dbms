@@ -1,6 +1,8 @@
 from django.conf.urls import url
 from website import views
 
+app_name =  'website'
+
 urlpatterns = [
     url(r'^$', views.index, name = 'index'),
     url(r'^register', views.registration, name= 'register'),
@@ -11,4 +13,5 @@ urlpatterns = [
     url(r'^trial', views.trial, name='trial'),
     url(r'^edit', views.edit_form, name='edit_form'),
     url(r'^another', views.another, name='another'),
+    url(r'^delete', views.delete, name='delete'),
 ]

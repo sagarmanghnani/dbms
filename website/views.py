@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from website.forms import SignUp, VerIfy, EvenTform, ChoIce,kidhar
+from website.forms import SignUp, VerIfy, EvenTform, ChoIce,kidhar,DeleTe
 from website.models import SignNer, EvenT
 from django.core.urlresolvers import reverse
 
@@ -45,6 +45,7 @@ def verification(request):
                     request.session['usernamer'] = usernamer
                     global flag
                     flag = True
+                    return HttpResponse(usernamer)
                     return HttpResponseRedirect(reverse('event'))
                 except SignNer.DoesNotExist:
                     return HttpResponse("you may have entered wrong information")
@@ -127,6 +128,22 @@ def another(request):
         d = kidhar(u=SignNer.objects.get(username=usernamer))
         return render(request, 'website/another.html', {'usernamer' : usernamer, 'd' : d})
 
+
+def delete(request):
+    usernamer = request.session['usernamer']
+    if request.method == 'POST':
+        form = DeleTe(data=request.POST, user=SignNer.objects.get(username=usernamer))
+        if form.is_valid():
+            new_form = form.cleaned_data
+            get_object = new_form['deletion']
+            for obj in get_object:
+                obj.delete()
+            return HttpResponse("your events are deleted")
+        else:
+            return HttpResponse("information invalid")
+    else:
+        form = DeleTe(user=SignNer.objects.get(username=usernamer))
+        return render(request, 'website/delete.html', {'usernamer' : usernamer, 'form' : form})
 
 
 
