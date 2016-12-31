@@ -14,4 +14,9 @@ urlpatterns = [
     url(r'^edit', views.edit_form, name='edit_form'),
     url(r'^another', views.another, name='another'),
     url(r'^delete', views.delete, name='delete'),
+    url(r'^city', views.city_val, name='city'),
+    url(r'^hello', views.city_events, name='cityevent'),
+    url(r'^details_event/(?P<city_id>[0-9]+)', views.details_event, name='details_event'),
+    url(r'^playing', views.playing, name='playing'),
+
 ]

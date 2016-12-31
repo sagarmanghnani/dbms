@@ -47,7 +47,9 @@ class DeleTe(forms.Form):
         super(DeleTe, self).__init__(*args, **kwargs)
         self.fields['deletion'].queryset = EvenT.objects.filter(user=user)
 
+class City(forms.Form):
+    city = forms.ChoiceField(choices=[], required=None)
 
-
-
-
+    def __init__(self, *args, **kwargs):
+        super(City, self).__init__(*args, **kwargs)
+        self.fields['city'].choices = EvenT.objects.all().values_list("eventplace", "eventplace").distinct()

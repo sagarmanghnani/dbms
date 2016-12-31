@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from website.forms import SignUp, VerIfy, EvenTform, ChoIce,kidhar,DeleTe
+from website.forms import SignUp, VerIfy, EvenTform, ChoIce,kidhar,DeleTe,City
 from website.models import SignNer, EvenT
 from django.core.urlresolvers import reverse
 
@@ -26,7 +26,7 @@ def registration(request):
                     return HttpResponse("user exist already")
                 except SignNer.DoesNotExist:
                     saver = form.save()
-                    return HttpResponse("your have been registered")
+                    return HttpResponse("you have been registered")
         else:
             form = SignUp()
         return render(request, 'website/register.html', {'form': form})
@@ -45,8 +45,7 @@ def verification(request):
                     request.session['usernamer'] = usernamer
                     global flag
                     flag = True
-                    return HttpResponse(usernamer)
-                    return HttpResponseRedirect(reverse('event'))
+                    return HttpResponseRedirect(reverse("website:event"))
                 except SignNer.DoesNotExist:
                     return HttpResponse("you may have entered wrong information")
             else:
@@ -91,34 +90,40 @@ def demo(request):
     return render(request, 'website/signout.html', {'usernamer' : usernamer})
 
 def trial(request):
-    usernamer = request.session['usernamer']
-    if request.method == 'POST':
-        kail = ChoIce(data=request.POST, us=SignNer.objects.get(username=usernamer))
-        if kail.is_valid():
-            lagad = kail.cleaned_data
-            kabad = lagad['topics']
-            lappad = kabad.eventname
-            request.session['lappad'] = lappad
-            return HttpResponse("received" + kabad.eventplace)
+    if flag is True:
+        usernamer = request.session['usernamer']
+        if request.method == 'POST':
+            kail = ChoIce(data=request.POST, us=SignNer.objects.get(username=usernamer))
+            if kail.is_valid():
+                lagad = kail.cleaned_data
+                kabad = lagad['topics']
+                lappad = kabad.eventname
+                request.session['lappad'] = lappad
+                return HttpResponse("received" + kabad.eventplace)
+            else:
+                return HttpResponse("data is not in required format")
         else:
-            return HttpResponse("data is not in required format")
+            kail = ChoIce(us=SignNer.objects.get(username=usernamer))
+        return render(request, 'website/trial.html', { 'kail' : kail,'usernamer' : usernamer })
     else:
-        kail = ChoIce(us=SignNer.objects.get(username=usernamer))
-    return render(request, 'website/trial.html', { 'kail' : kail,'usernamer' : usernamer })
+        return HttpResponse("user is not logged in")
 
 def edit_form(request):
-    lappad = request.session['lappad']
-    thappad = EvenT.objects.get(eventname= lappad)
-    if request.method == 'POST':
-        keyform = EvenTform(data=request.POST, instance=thappad)
-        if keyform.is_valid():
-            saver = keyform.save()
-            return HttpResponse("information edited")
+    if flag is True:
+        lappad = request.session['lappad']
+        thappad = EvenT.objects.get(eventname= lappad)
+        if request.method == 'POST':
+            keyform = EvenTform(data=request.POST, instance=thappad)
+            if keyform.is_valid():
+                saver = keyform.save()
+                return HttpResponse("information edited")
+            else:
+                return HttpResponse("information not in desired format")
         else:
-            return HttpResponse("information not in desired format")
+            keyform = EvenTform(instance=thappad)
+        return render(request, 'website/edit.html', {'thappad' : thappad, 'lappad' : lappad, 'keyform' : keyform})
     else:
-        keyform = EvenTform(instance=thappad)
-    return render(request, 'website/edit.html', {'thappad' : thappad, 'lappad' : lappad, 'keyform' : keyform})
+        return HttpResponse("user is not logged in")
 
 def another(request):
     usernamer = request.session['usernamer']
@@ -130,22 +135,51 @@ def another(request):
 
 
 def delete(request):
-    usernamer = request.session['usernamer']
-    if request.method == 'POST':
-        form = DeleTe(data=request.POST, user=SignNer.objects.get(username=usernamer))
+    if flag is True:
+        usernamer = request.session['usernamer']
+        if request.method == 'POST':
+            form = DeleTe(data=request.POST, user=SignNer.objects.get(username=usernamer))
+            if form.is_valid():
+                new_form = form.cleaned_data
+                get_object = new_form['deletion']
+                for obj in get_object:
+                    obj.delete()
+                return HttpResponse("your events are deleted")
+            else:
+                return HttpResponse("information invalid")
+        else:
+            form = DeleTe(user=SignNer.objects.get(username=usernamer))
+            return render(request, 'website/delete.html', {'usernamer' : usernamer, 'form' : form})
+    else:
+        return HttpResponse("user is not logged in")
+
+def city_val(request):
+    if request.method == "POST":
+        form =  City(data=request.POST)
+
         if form.is_valid():
             new_form = form.cleaned_data
-            get_object = new_form['deletion']
-            for obj in get_object:
-                obj.delete()
-            return HttpResponse("your events are deleted")
+            namer = new_form['city']
+            request.session['namer'] = namer
+            return HttpResponse("here it is " + namer )
         else:
-            return HttpResponse("information invalid")
+            return HttpResponse("information is not in order")
     else:
-        form = DeleTe(user=SignNer.objects.get(username=usernamer))
-        return render(request, 'website/delete.html', {'usernamer' : usernamer, 'form' : form})
+        form = City()
+        return render(request, 'website/city.html', {'form' : form})
 
+def city_events(request):
+    namer = request.session['namer']
+    events_city = EvenT.objects.filter(eventplace=namer)
+    return render(request, 'website/cityevents.html', {'namer' : namer, 'events_city' : events_city})
 
+def details_event(request, city_id):
+    sub = EvenT.objects.get(id = city_id)
+    return  render(request, 'website/citydetail.html', {'sub' : sub})
+
+def playing(request):
+    sub = EvenT.objects.get(id = 2)
+    return render(request, 'website/citydetail.html', {'sub' : sub})
 
 
 
