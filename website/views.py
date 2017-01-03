@@ -175,11 +175,24 @@ def city_events(request):
 
 def details_event(request, city_id):
     sub = EvenT.objects.get(id = city_id)
-    return  render(request, 'website/citydetail.html', {'sub' : sub})
-
-def playing(request):
-    sub = EvenT.objects.get(id = 2)
     return render(request, 'website/citydetail.html', {'sub' : sub})
+
+def show_reg_events(request):
+    usernamer = request.session['usernamer']
+    reg_eventing = EvenT.objects.exclude(user=SignNer.objects.get(username=usernamer))
+    return render(request, 'website/regevents.html', {'reg_eventing' : reg_eventing})
+
+def registerevent(request, event_id):
+
+    if request.method == 'POST':
+        usernamer = request.session['usernamer']
+        signner_obj = SignNer.objects.get(username=usernamer)
+        event_obj = EvenT.objects.get(id= event_id)
+        signner_obj.reg_event.add(event_obj)
+        return HttpResponse("you are registered for the event")
+    else:
+        sub = EvenT.objects.get(id = event_id)
+        return render(request, 'website/citydetail.html', {'sub' : sub})
 
 
 

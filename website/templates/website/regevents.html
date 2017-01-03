@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Events to register</title>
+</head>
+<body>
+{% for event in reg_eventing %}
+    <ul>
+    <li><a href="{% url 'website:registerevent' event.id %}">{{ event.eventname }}</a></li>
+    </ul>
+{% endfor %}
+</body>
+</html>

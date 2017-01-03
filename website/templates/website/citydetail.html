@@ -19,5 +19,9 @@
         {{ sub.about_event }}
     </li>
 </ul>
+<form action="" method="post">
+    {% csrf_token %}
+    <button type="submit">Register</button>
+</form>
 </body>
 </html>
