@@ -5,6 +5,7 @@ from django.db import models
 
 # Create your models here.
 
+# article
 class SignNer(models.Model):
     firstname = models.CharField(max_length=200)
     lastname = models.CharField(max_length=200)
@@ -16,7 +17,7 @@ class SignNer(models.Model):
         return self.username
 
 
-
+# publications
 class EvenT(models.Model):
     user = models.ForeignKey(SignNer, on_delete=models.CASCADE)
     eventname = models.CharField(max_length=40)

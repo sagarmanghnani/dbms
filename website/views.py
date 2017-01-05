@@ -194,6 +194,23 @@ def registerevent(request, event_id):
         sub = EvenT.objects.get(id = event_id)
         return render(request, 'website/citydetail.html', {'sub' : sub})
 
+def user_event(request):
+    usernamer = request.session['usernamer']
+    s1 = SignNer.objects.get(username=usernamer)
+    e1 = s1.reg_event.all()
+    return render(request, 'website/userevent.html', {'e1':e1, 's1':s1, 'usernamer': usernamer})
+
+def leavemeetup(request, leave_id):
+    usernamer = request.session['usernamer']
+    s2 = SignNer.objects.get(username=usernamer)
+    e2 = s2.reg_event.get(id=leave_id)
+    if request.method == 'POST':
+        s2.reg_event.remove(e2)
+        return HttpResponse("you have successfully leave the meetup")
+    else:
+        return render(request, 'website/leavemeet.html', {'usernamer' : usernamer,'s2' : s2, 'e2' : e2})
+
+
 
 
 

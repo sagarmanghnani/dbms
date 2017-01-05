@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>leave_meetup</title>
+</head>
+<body>
+<ul>
+    <li>
+        {{ e2.eventname }}
+    </li>
+    <li>
+        {{ e2.eventplace }}
+    </li>
+    <li>
+        {{ e2.user }}
+    </li>
+    <li>
+        {{ e2.about_event }}
+    </li>
+</ul>
+<form action="" method="post">
+    {% csrf_token %}
+    <button type="submit">leavemeetup</button>
+</form>
+</body>
+</html>

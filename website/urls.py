@@ -19,6 +19,9 @@ urlpatterns = [
     url(r'^details_event/(?P<city_id>[0-9]+)', views.details_event, name='details_event'),
     url(r'^eventreg', views.show_reg_events, name='eventregistration'),
     url(r'^registerevent/(?P<event_id>[0-9]+)', views.registerevent, name='registerevent'),
+    url(r'^userevent/$', views.user_event, name='userevent'),
+    url(r'^leavemeetup/(?P<leave_id>[0-9]+)', views.leavemeetup, name='leavemeetup'),
+
 
 
 ]

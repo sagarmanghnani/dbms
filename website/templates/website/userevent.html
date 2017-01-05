@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cityevents</title>
+</head>
+<body>
+{% for leave in e1 %}
+    <ul>
+    <li><a href="{% url 'website:leavemeetup' leave.id %}">{{ leave.eventname }}</a></li>
+    </ul>
+{% endfor %}
+</body>
+</html>
