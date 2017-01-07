@@ -1,7 +1,8 @@
-from django.contrib.auth.models import User
+
 from django import forms
 from .models import SignNer, EvenT
 from django.forms import Textarea, PasswordInput
+from datetimewidget.widgets import TimeWidget, DateWidget
 
 class SignUp(forms.ModelForm):
     class Meta:
@@ -20,12 +21,25 @@ class VerIfy(forms.Form):
 # creating model forms for the event
 
 class EvenTform(forms.ModelForm):
+
+
     class Meta:
         model = EvenT
         exclude = ('user',)
+        dateoption = {'format': 'dd/mm/yy',
+                      'autoclose': True,
+                      }
+        timeoption = {
+            'format' : 'HH:ii P',
+            'autoclose' : True,
+            'showMeridian' : True,
+        }
         widgets = {
             'about_event' : Textarea(attrs={'cols': 80, 'rows':20}),
-        }
+            'date' : DateWidget(usel10n=True, bootstrap_version=3, options=dateoption),
+            'time' : TimeWidget(usel10n= True, bootstrap_version=3, options=timeoption),
+            }
+
 class ChoIce(forms.Form):
     topics = forms.ModelChoiceField(queryset=EvenT.objects.all(), widget=forms.RadioSelect)
 

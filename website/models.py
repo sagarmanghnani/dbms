@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.db import models
-from django.db import models
+from django.utils import timezone
+import datetime
 
 # Create your models here.
 
@@ -23,6 +24,8 @@ class EvenT(models.Model):
     eventname = models.CharField(max_length=40)
     eventplace = models.CharField(max_length = 50)
     about_event = models.CharField(max_length=200, blank=True, null=True)
+    date = models.DateField(null=True, blank=True)
+    time = models.TimeField(null=True, blank=True)
 
 
     def __str__(self):
