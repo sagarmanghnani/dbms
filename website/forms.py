@@ -6,6 +6,7 @@ from datetimewidget.widgets import TimeWidget, DateWidget
 from django.core.exceptions import ValidationError
 
 class SignUp(forms.ModelForm):
+    renterpassword = forms.CharField(widget=forms.PasswordInput)
     class Meta:
         model = SignNer
         fields = ('firstname','lastname','password','username')
@@ -13,12 +14,19 @@ class SignUp(forms.ModelForm):
             'password': PasswordInput(render_value=False)
         }
     MIN_LENGTH = 8
-    def clean_password(self):
+    def clean(self):
         password = self.cleaned_data['password']
+        know = self.cleaned_data['renterpassword']
 
-        if len(password) <= self.MIN_LENGTH:
-            raise forms.ValidationError('password must be at least %d characters long.' %self.MIN_LENGTH)
-        return password
+        if len(password) < self.MIN_LENGTH and password != know:
+            raise forms.ValidationError("enter %d password and confirm password does not match" %self.MIN_LENGTH)
+        elif password != know:
+            raise forms.ValidationError("enter password does not match")
+        elif len(password) < self.MIN_LENGTH:
+            raise forms.ValidationError("enter %d password" %self.MIN_LENGTH)
+        return self.cleaned_data
+
+
 
 # creating forms for login of User
 
@@ -29,7 +37,6 @@ class VerIfy(forms.Form):
 # creating model forms for the event
 
 class EvenTform(forms.ModelForm):
-
 
     class Meta:
         model = EvenT
