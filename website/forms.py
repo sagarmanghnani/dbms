@@ -3,14 +3,22 @@ from django import forms
 from .models import SignNer, EvenT
 from django.forms import Textarea, PasswordInput
 from datetimewidget.widgets import TimeWidget, DateWidget
+from django.core.exceptions import ValidationError
 
 class SignUp(forms.ModelForm):
     class Meta:
         model = SignNer
         fields = ('firstname','lastname','password','username')
         widgets = {
-            'password': PasswordInput()
+            'password': PasswordInput(render_value=False)
         }
+    MIN_LENGTH = 8
+    def clean_password(self):
+        password = self.cleaned_data['password']
+
+        if len(password) <= self.MIN_LENGTH:
+            raise forms.ValidationError('password must be at least %d characters long.' %self.MIN_LENGTH)
+        return password
 
 # creating forms for login of User
 

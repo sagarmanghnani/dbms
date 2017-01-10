@@ -7,7 +7,7 @@
 <body>
 {% for city in events_city %}
     <ul>
-    <li><a href="{% url 'website:details_event' city.id %}">{{ city.eventname }}</a></li>
+    <li><a href="{% url 'website:registerevent' city.id %}">{{ city.eventname }}</a></li>
     </ul>
 {% endfor %}
 </body>

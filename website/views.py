@@ -6,7 +6,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from website.forms import SignUp, VerIfy, EvenTform, ChoIce,kidhar,DeleTe,City
 from website.models import SignNer, EvenT
 from django.core.urlresolvers import reverse
-
+import datetime
+from django.contrib.auth.hashers import make_password, check_password
 
 # Create your views here.
 
@@ -25,7 +26,9 @@ def registration(request):
                     SignNer.objects.get(username=latest['username'])
                     return HttpResponse("user exist already")
                 except SignNer.DoesNotExist:
-                    saver = form.save()
+                    up_form = form.save(commit=False)
+                    up_form.password = make_password(form.cleaned_data['password'])
+                    up_form.save()
                     return HttpResponse("you have been registered")
         else:
             form = SignUp()
@@ -38,18 +41,20 @@ def verification(request):
         if request.method == 'POST':
             new_form = VerIfy(data=request.POST)
             if new_form.is_valid():
-                latter = new_form.cleaned_data
-                try:
-                    SignNer.objects.get(username=latter['username'], password=latter['password'])
-                    usernamer = latter['username']
-                    request.session['usernamer'] = usernamer
-                    global flag
-                    flag = True
-                    return HttpResponseRedirect(reverse("website:event"))
-                except SignNer.DoesNotExist:
-                    return HttpResponse("you may have entered wrong information")
-            else:
-                return HttpResponse("information is not in required format")
+               latter = new_form.cleaned_data
+               try:
+                   s1 = SignNer.objects.get(username=latter['username'])
+                   checking = check_password(latter['password'], s1.password)
+                   if checking:
+                       usernamer = latter['username']
+                       request.session['usernamer'] = usernamer
+                       global flag
+                       flag = True
+                       return HttpResponseRedirect(reverse("website:event"))
+                   else:
+                       return HttpResponse("you might have entered wrong username or password")
+               except SignNer.DoesNotExist:
+                   return HttpResponse("entered wrong information")
         else:
             new_form = VerIfy()
         return render(request, 'website/login.html', {'new_form': new_form})
@@ -178,9 +183,16 @@ def details_event(request, city_id):
     return render(request, 'website/citydetail.html', {'sub' : sub})
 
 def show_reg_events(request):
+
     usernamer = request.session['usernamer']
-    reg_eventing = EvenT.objects.exclude(user=SignNer.objects.get(username=usernamer))
-    return render(request, 'website/regevents.html', {'reg_eventing' : reg_eventing})
+    s2 = SignNer.objects.get(username=usernamer)
+    e1 = EvenT.objects.exclude(user = s2)
+    e3 = EvenT.objects.filter(id__in = s2.reg_event.all())
+    reg_eventing = e1.exclude(id__in = e3)
+    if reg_eventing:
+        return render(request, 'website/regevents.html', {'reg_eventing' : reg_eventing, 's2' : s2, 'e1' : e1, 'e3' : e3 })
+    else:
+        return HttpResponse("No event to register for")
 
 def registerevent(request, event_id):
 
@@ -195,10 +207,14 @@ def registerevent(request, event_id):
         return render(request, 'website/citydetail.html', {'sub' : sub})
 
 def user_event(request):
+
     usernamer = request.session['usernamer']
     s1 = SignNer.objects.get(username=usernamer)
     e1 = s1.reg_event.all()
-    return render(request, 'website/userevent.html', {'e1':e1, 's1':s1, 'usernamer': usernamer})
+    if e1:
+        return render(request, 'website/userevent.html', {'e1':e1, 's1':s1, 'usernamer': usernamer})
+    else:
+        return HttpResponse("you have not registered for any event")
 
 def leavemeetup(request, leave_id):
     usernamer = request.session['usernamer']
@@ -211,7 +227,13 @@ def leavemeetup(request, leave_id):
         return render(request, 'website/leavemeet.html', {'usernamer' : usernamer,'s2' : s2, 'e2' : e2})
 
 
-
+def upcomingevent(request):
+    try:
+        today = datetime.date.today()
+        e1 = EvenT.objects.filter(date__month=today.month)
+        return render(request, 'website/upcoming.html', {'today' : today, 'e1' : e1})
+    except EvenT.DoesNotExist:
+        return HttpResponse("There is no event in this month")
 
 
 

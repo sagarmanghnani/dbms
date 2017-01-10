@@ -3,6 +3,9 @@
         <title> Login </title>
     </head>
     <body>
+    {% if form.errors %}
+        {{ form.errors }}
+    {% endif %}
         <form action="" method = "POST">
             {% csrf_token %}
             <div>
