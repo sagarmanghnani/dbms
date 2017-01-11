@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'website',
     'datetimewidget',
     'bootstrap3',
-   
+    'bootstrapform',
 ]
 
 MIDDLEWARE = [

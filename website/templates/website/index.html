@@ -8,11 +8,27 @@
         <link href="{% static 'css/greatest.css' %}" rel="stylesheet">
      </head>
 
-<body>
+<body class="container-fluid">
+<br>
 <div class="row">
-    <div class="col-xs-6 well">
-    <p>first page</p>
+    <div class="col-xs-8">
+        <div class="text-center">
+            <h2> Meetup </h2>
+            <br>
+            <h3> Idle place to meet with people </h3>
+         </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="row">
+            <div class="col-xs-6 ">
+                <a href="{% url 'website:register' %}"><button type="button" class="btn btn-danger">Signup</button></a>
+            </div>
+            <div class="col-xs-6 ">
+                <a href="{% url 'website:verify' %}"><button type="button" class="btn btn-success">Signin</button></a>
+            </div>
+        </div>
     </div>
 </div>
+
 </body>
 </html>
