@@ -1,6 +1,6 @@
 
 from django import forms
-from .models import SignNer, EvenT
+from .models import SignNer, EvenT, Question
 from django.forms import Textarea, PasswordInput
 from datetimewidget.widgets import TimeWidget, DateWidget
 from django.core.exceptions import ValidationError
@@ -9,7 +9,7 @@ class SignUp(forms.ModelForm):
     renterpassword = forms.CharField(widget=forms.PasswordInput)
     class Meta:
         model = SignNer
-        fields = ('firstname','lastname','password','username')
+        fields = ('firstname','lastname','password','username', 'email')
         widgets = {
             'password': PasswordInput(render_value=False)
         }
@@ -82,3 +82,46 @@ class City(forms.Form):
     def __init__(self, *args, **kwargs):
         super(City, self).__init__(*args, **kwargs)
         self.fields['city'].choices = EvenT.objects.all().values_list("eventplace", "eventplace").distinct()
+
+class Create_quest(forms.ModelForm):
+    class Meta:
+        model = Question
+        fields = ('question', )
+
+class Quest_choice(forms.Form):
+    quest_choice = forms.ModelChoiceField(queryset=Question.objects.all())
+    answer = forms.CharField(max_length=200)
+
+class get_user(forms.Form):
+    email = forms.EmailField(max_length=200)
+    username = forms.CharField(max_length=200)
+
+class Verify_user(forms.Form):
+    question = forms.ChoiceField(choices=[])
+    answer = forms.CharField(max_length=200)
+
+    def __init__(self,user,*args, **kwargs):
+        super(Verify_user,self).__init__(*args, **kwargs)
+        self.fields['question'].choices = SignNer.objects.filter(username=user).values_list("reg_question", "reg_question").distinct()
+
+class Assignpass(forms.Form):
+    password = forms.CharField(max_length=200)
+    confirm_password = forms.CharField(max_length=200)
+    class Meta:
+        widgets = {
+            'password': PasswordInput(render_value=False)
+        }
+
+    MIN_LENGTH = 8
+
+    def clean(self):
+        password = self.cleaned_data['password']
+        know = self.cleaned_data['confirm_password']
+
+        if len(password) < self.MIN_LENGTH and password != know:
+            raise forms.ValidationError("enter %d password and confirm password does not match" % self.MIN_LENGTH)
+        elif password != know:
+            raise forms.ValidationError("enter password does not match")
+        elif len(password) < self.MIN_LENGTH:
+            raise forms.ValidationError("enter %d password" % self.MIN_LENGTH)
+        return self.cleaned_data

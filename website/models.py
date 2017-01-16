@@ -12,7 +12,11 @@ class SignNer(models.Model):
     lastname = models.CharField(max_length=200)
     password = models.CharField(max_length=200)
     username = models.CharField(max_length=200)
+    email = models.EmailField(max_length=200,null=True, blank=True)
     reg_event = models.ManyToManyField("EvenT")
+    reg_question = models.CharField(max_length=200, null=True)
+    answer = models.CharField(max_length=200, null=True)
+
 
     def __str__(self):
         return self.username
@@ -31,7 +35,9 @@ class EvenT(models.Model):
     def __str__(self):
         return self.eventname
 
+class Question(models.Model):
+    question = models.CharField(max_length=200)
 
-
-
+    def __str__(self):
+        return self.question
 

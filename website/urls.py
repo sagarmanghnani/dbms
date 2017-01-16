@@ -22,6 +22,11 @@ urlpatterns = [
     url(r'^userevent/$', views.user_event, name='userevent'),
     url(r'^leavemeetup/(?P<leave_id>[0-9]+)', views.leavemeetup, name='leavemeetup'),
     url(r'^upcoming', views.upcomingevent, name='upcomingevent'),
+    url(r'^getquest', views.get_quest, name='getquest'),
+    url(r'selchoice', views.sel_choice, name='sel_choice'),
+    url(r'^getuser', views.getting_user, name='getuser'),
+    url(r'^verifyuser', views.verifyuser, name='verifyuser'),
+    url(r'^newpassword', views.newpassword, name='newpassword')
 
 
 

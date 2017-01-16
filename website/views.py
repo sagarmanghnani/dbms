@@ -3,11 +3,14 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from website.forms import SignUp, VerIfy, EvenTform, ChoIce,kidhar,DeleTe,City
+from website.forms import SignUp, VerIfy, EvenTform, ChoIce,kidhar,DeleTe,City,Create_quest,Quest_choice,get_user,Verify_user, Assignpass
 from website.models import SignNer, EvenT
 from django.core.urlresolvers import reverse
 import datetime
 from django.contrib.auth.hashers import make_password, check_password
+from django.db.models import Q
+
+
 
 # Create your views here.
 
@@ -235,14 +238,92 @@ def upcomingevent(request):
     except EvenT.DoesNotExist:
         return HttpResponse("There is no event in this month")
 
+def get_quest(request):
+    if request.method == 'POST':
+        form = Create_quest(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse("question registered")
+        else:
+            return HttpResponse("question cant be registered")
+    else:
+        form = Create_quest()
+        return render(request, 'website/question.html', {'form' : form})
 
+def sel_choice(request):
+    usernamer = request.session['usernamer']
+    if request.method == 'POST':
+        form = Quest_choice(data=request.POST)
+        if form.is_valid():
+            new_quest = form.cleaned_data
+            question = new_quest['quest_choice']
+            answering = new_quest['answer']
+            new_question = question.question
+            sign = SignNer.objects.get(username=usernamer)
+            sign.reg_question = new_question
+            sign.answer = answering
+            sign.save()
+            return HttpResponse(new_question)
+        else:
+            return HttpResponse("wrong info")
+    else:
+        form = Quest_choice()
+        return render(request, 'website/selchoice.html', {'form':form})
 
+def getting_user(request):
+    if request.method == 'POST':
+        form = get_user(data=request.POST)
+        if form.is_valid():
+            latest = form.cleaned_data
+            try:
+                sign = SignNer.objects.get(Q(email=latest['email']) | Q(username=latest['username']))
+                savesign = sign.username
+                request.session['savesign'] = savesign
 
+                return HttpResponse("your details might be found")
+            except SignNer.DoesNotExist:
+                return HttpResponse("information is not correct")
+        else:
+            return HttpResponse("information not in order")
+    else:
+        form = get_user()
+        return render(request, 'website/getuser.html', {'form':form})
 
+def verifyuser(request):
+    savesign = request.session['savesign']
+    if request.method == 'POST':
+        form = Verify_user(data=request.POST,user=savesign)
+        if form.is_valid():
+            latest = form.cleaned_data
+            sign = SignNer.objects.get(username=savesign)
+            if latest['answer'] == sign.answer:
+                # redirect user to newpassword
+                newuser = savesign
+                request.session['newuser'] = newuser
+                return HttpResponse("you are verified")
+            else:
+                return HttpResponse("wrong answer try again")
+        else:
+            return HttpResponse("invalid")
+    else:
+        form = Verify_user(user=savesign)
+        return render(request, 'website/verifyuser.html', {'form' : form, 'savesign' : savesign})
 
+def newpassword(request):
+    args = {}
+    newuser = request.session['newuser']
+    if request.method == 'POST':
+        form = Assignpass(data=request.POST)
+        if form.is_valid():
+            sign = SignNer.objects.get(username=newuser)
+            hashpass = make_password(form.cleaned_data['password'])
+            sign.password = hashpass
+            sign.save()
+            return HttpResponse("password changed")
 
-
-
+    else:
+        form = Assignpass()
+    return render(request, 'website/newpassword.html', {'form':form, 'newuser':newuser})
 
 
 
