@@ -1,18 +1,38 @@
+{% load staticfiles %}
+{% load bootstrap3 %}
+{% load bootstrap %}
+{% bootstrap_messages %}
+
 <html>
-    <head><title> logger </title></head>
-    <body>
-        <div>
+    <head>
+        <title> logger </title>
+        <link rel="stylesheet" type="text/css" href={% static 'css/bootstrap.min.css' %}>
+        <script src="{% static 'js/bootstrap.js' %}"></script>
+    </head>
+    <body class="container-fluid">
         <form action= "" method="POST">
             {% csrf_token %}
-            {% for field in  new_form %}
-            {{field.label_tag}}
-            <div>
-                {{field}}
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-xs-6">
+                    <div>
+                        <h2 class="text-center">Sign-in</h2>
+                    </div>
+                    <div>
+                        {% bootstrap_form new_form %}
+                    </div>
+                    <div>
+                        <a href="{% url 'website:getuser' %}">Forget password</a>
+                    </div>
+                    <br>
+                    <div>
+                       <a href="event.html">{% bootstrap_button "Login" button_type="submit" button_class="btn btn-danger" %}</a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                </div>
             </div>
-            {% endfor %}
-        <button type="submit"> Submit </button>
-
         </form>
-        </div>
     </body>
 </html>

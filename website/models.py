@@ -30,7 +30,7 @@ class EvenT(models.Model):
     about_event = models.CharField(max_length=200, blank=True, null=True)
     date = models.DateField(null=True, blank=True)
     time = models.TimeField(null=True, blank=True)
-
+    event_img = models.FileField(null=True)
 
     def __str__(self):
         return self.eventname

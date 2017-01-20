@@ -105,12 +105,9 @@ class Verify_user(forms.Form):
         self.fields['question'].choices = SignNer.objects.filter(username=user).values_list("reg_question", "reg_question").distinct()
 
 class Assignpass(forms.Form):
-    password = forms.CharField(max_length=200)
-    confirm_password = forms.CharField(max_length=200)
-    class Meta:
-        widgets = {
-            'password': PasswordInput(render_value=False)
-        }
+    password = forms.CharField(max_length=200, widget=forms.PasswordInput())
+    confirm_password = forms.CharField(max_length=200, widget=forms.PasswordInput())
+
 
     MIN_LENGTH = 8
 

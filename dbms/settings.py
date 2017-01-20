@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'bootstrap3',
     'bootstrapform',
 
+
+
 ]
 
 
@@ -126,12 +128,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
-EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1025
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_USE_TLS = False
-
-
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

@@ -26,7 +26,8 @@ urlpatterns = [
     url(r'selchoice', views.sel_choice, name='sel_choice'),
     url(r'^getuser', views.getting_user, name='getuser'),
     url(r'^verifyuser', views.verifyuser, name='verifyuser'),
-    url(r'^newpassword', views.newpassword, name='newpassword')
+    url(r'^newpassword', views.newpassword, name='newpassword'),
+    url(r'^redirecting', views.redirecting, name='redirecting'),
 
 
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from website.forms import SignUp, VerIfy, EvenTform, ChoIce,kidhar,DeleTe,City,Create_quest,Quest_choice,get_user,Verify_user, Assignpass
 from website.models import SignNer, EvenT
@@ -53,7 +53,7 @@ def verification(request):
                        request.session['usernamer'] = usernamer
                        global flag
                        flag = True
-                       return HttpResponseRedirect(reverse("website:event"))
+                       return HttpResponseRedirect(reverse('website:redirecting'))
                    else:
                        return HttpResponse("you might have entered wrong username or password")
                except SignNer.DoesNotExist:
@@ -69,8 +69,9 @@ def event(request):
         usernamer = request.session['usernamer']
         if request.method == 'POST':
             signer = SignNer.objects.get(username = usernamer)
-            newest_form = EvenTform(data=request.POST)
+            newest_form = EvenTform(request.POST, request.FILES)
             if newest_form.is_valid():
+
                 event_form = newest_form.save(commit=False)
                 event_form.user = signer
                 event_form.save()
@@ -325,7 +326,8 @@ def newpassword(request):
         form = Assignpass()
     return render(request, 'website/newpassword.html', {'form':form, 'newuser':newuser})
 
-
+def redirecting(request):
+    return render_to_response('website/event-main.html')
 
 
 
