@@ -22,7 +22,7 @@ def index(request):
 def registration(request):
     if flag is False:
         if request.method == 'POST':
-            form = SignUp(data=request.POST)
+            form = SignUp(request.POST, request.FILES)
             if form.is_valid():
                 latest = form.cleaned_data
                 try:
@@ -53,7 +53,7 @@ def verification(request):
                        request.session['usernamer'] = usernamer
                        global flag
                        flag = True
-                       return HttpResponseRedirect(reverse('website:redirecting'))
+                       return HttpResponseRedirect(reverse('website:showevents'))
                    else:
                        return HttpResponse("you might have entered wrong username or password")
                except SignNer.DoesNotExist:
@@ -86,7 +86,7 @@ def event(request):
 def showevents(request):
     if flag is True:
         usernamer = request.session['usernamer']
-        sh_event = EvenT.objects.filter(user=SignNer.objects.get(username=usernamer))
+        sh_event = EvenT.objects.filter(Q(user=SignNer.objects.get(username=usernamer)) & Q(flag=True))
         return render(request, 'website/showevent.html', {'sh_event': sh_event})
     else:
         return HttpResponse("no user to show event")
@@ -98,6 +98,7 @@ def demo(request):
         flag = False
     return render(request, 'website/signout.html', {'usernamer' : usernamer})
 
+# need by edit_form below to select the city
 def trial(request):
     if flag is True:
         usernamer = request.session['usernamer']
@@ -117,7 +118,8 @@ def trial(request):
     else:
         return HttpResponse("user is not logged in")
 
-def edit_form(request):
+
+"""def edit_form(request):
     if flag is True:
         lappad = request.session['lappad']
         thappad = EvenT.objects.get(eventname= lappad)
@@ -132,7 +134,7 @@ def edit_form(request):
             keyform = EvenTform(instance=thappad)
         return render(request, 'website/edit.html', {'thappad' : thappad, 'lappad' : lappad, 'keyform' : keyform})
     else:
-        return HttpResponse("user is not logged in")
+        return HttpResponse("user is not logged in")"""
 
 def another(request):
     usernamer = request.session['usernamer']
@@ -252,6 +254,7 @@ def get_quest(request):
         return render(request, 'website/question.html', {'form' : form})
 
 def sel_choice(request):
+
     usernamer = request.session['usernamer']
     if request.method == 'POST':
         form = Quest_choice(data=request.POST)
@@ -272,6 +275,7 @@ def sel_choice(request):
         return render(request, 'website/selchoice.html', {'form':form})
 
 def getting_user(request):
+
     if request.method == 'POST':
         form = get_user(data=request.POST)
         if form.is_valid():
@@ -291,6 +295,7 @@ def getting_user(request):
         return render(request, 'website/getuser.html', {'form':form})
 
 def verifyuser(request):
+
     savesign = request.session['savesign']
     if request.method == 'POST':
         form = Verify_user(data=request.POST,user=savesign)
@@ -311,7 +316,7 @@ def verifyuser(request):
         return render(request, 'website/verifyuser.html', {'form' : form, 'savesign' : savesign})
 
 def newpassword(request):
-    args = {}
+
     newuser = request.session['newuser']
     if request.method == 'POST':
         form = Assignpass(data=request.POST)
@@ -327,7 +332,32 @@ def newpassword(request):
     return render(request, 'website/newpassword.html', {'form':form, 'newuser':newuser})
 
 def redirecting(request):
+
     return render_to_response('website/event-main.html')
+
+def showdel(request, del_id):
+    events = EvenT.objects.get(id=del_id)
+    events.flag = False
+    events.save()
+    return HttpResponseRedirect(reverse('website:showevents'))
+
+
+def edit_form(request, edit_id):
+    usernamer = request.session['usernamer']
+    events = EvenT.objects.get(Q(user=SignNer.objects.get(username=usernamer)) & Q(id=edit_id))
+    if request.method == 'POST':
+        form = EvenTform(data=request.POST, instance=events)
+        if form.is_valid():
+             form.save()
+             return HttpResponse("information edited")
+        else:
+            return HttpResponse("information not in desired format")
+    else:
+        form = EvenTform(instance=events)
+        return render(request, 'website/newedit.html', {'form':form})
+
+
+
 
 
 

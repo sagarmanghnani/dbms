@@ -16,7 +16,7 @@ class SignNer(models.Model):
     reg_event = models.ManyToManyField("EvenT")
     reg_question = models.CharField(max_length=200, null=True)
     answer = models.CharField(max_length=200, null=True)
-
+    userimg = models.FileField(upload_to='user/', null=True)
 
     def __str__(self):
         return self.username
@@ -31,6 +31,8 @@ class EvenT(models.Model):
     date = models.DateField(null=True, blank=True)
     time = models.TimeField(null=True, blank=True)
     event_img = models.FileField(null=True)
+    flag = models.BooleanField(default=True)
+
 
     def __str__(self):
         return self.eventname

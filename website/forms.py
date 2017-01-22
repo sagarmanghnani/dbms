@@ -6,10 +6,11 @@ from datetimewidget.widgets import TimeWidget, DateWidget
 from django.core.exceptions import ValidationError
 
 class SignUp(forms.ModelForm):
+
     renterpassword = forms.CharField(widget=forms.PasswordInput)
     class Meta:
         model = SignNer
-        fields = ('firstname','lastname','password','username', 'email')
+        fields = ('firstname','lastname','password','username', 'email', 'userimg')
         widgets = {
             'password': PasswordInput(render_value=False)
         }
@@ -40,7 +41,7 @@ class EvenTform(forms.ModelForm):
 
     class Meta:
         model = EvenT
-        exclude = ('user',)
+        exclude = ('user', 'flag', )
         dateoption = {'format': 'dd/mm/yy',
                       'autoclose': True,
                       }
@@ -122,3 +123,4 @@ class Assignpass(forms.Form):
         elif len(password) < self.MIN_LENGTH:
             raise forms.ValidationError("enter %d password" % self.MIN_LENGTH)
         return self.cleaned_data
+

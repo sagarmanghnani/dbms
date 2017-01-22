@@ -1,17 +1,72 @@
+{% load staticfiles %}
+{% load bootstrap3 %}
+{% load bootstrap %}
+{% bootstrap_messages %}
 <html>
-<head><title> Showevent </title></head>
+<head>
+    <title> Showevent </title>
+    <link rel="stylesheet" type="text/css" href={% static 'css/bootstrap.min.css' %}>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/panel.css' %}">
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+</head>
 <body>
-<ul>
-{% for fields in sh_event %}
-    <li>
-        {{ fields.user }}
-        {{ fields.eventname }}
-        {{ fields.eventplace }}
-        <img src="{{ fields.event_img.url }}">
-    </li>
-
-{% endfor %}
-
-</ul>
+    <div class="row">
+        <div class="col-md-8">
+            <h2 class="text-center">Find a Meetup</h2>
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-5">
+                    <br>
+                    <a href="{% url 'website:event' %}"><button type="submit" class="btn btn-danger">Create Meetup</button></a>
+                </div>
+                <div class="col-md-7">
+                    <a href="{% url 'website:city' %}"><small><h3>Show events in city</h3></small></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+         <div class="row">
+            {% for foo in sh_event %}
+                <div class="col-md-4">
+                    <div class="panel panel-default well">
+                        <div class="panel-body">
+                            <div class="imgwrapper">
+                                <a href="{% url 'website:registerevent' foo.id %}">
+                                    {% if foo.event_img %}
+                                        <img src="{{ foo.event_img.url }}" class="img-responsive center-block">
+                                    {% else %}
+                                        <h3> No image to display </h3>
+                                    {% endif %}
+                                </a>
+                            </div>
+                            <div>
+                                <h2>{{ foo.eventname }}</h2><small>{{ foo.eventplace }}</small>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <button class="btn btn-success" data-toggle="collapse" data-target="#demo{{ forloop.counter }}">viewinfo</button>
+                                </div>
+                                <div class="col-xs-4">
+                                    <a href="{% url 'website:showdel' foo.id %}"><button class="btn btn-danger">delete</button></a>
+                                </div>
+                                <div class="col-xs-4">
+                                    <a href="{% url 'website:edit_form' foo.id %}"><button class="btn btn-success">edit</button> </a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class = "collapse" id="demo{{ forloop.counter }}">
+                                        <p class="align-left text-left">{{ foo.about_event }}</p>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        {% endfor %}
+        </div>
+    </div>
 </body>
 </html>

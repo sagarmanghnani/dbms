@@ -28,7 +28,8 @@ urlpatterns = [
     url(r'^verifyuser', views.verifyuser, name='verifyuser'),
     url(r'^newpassword', views.newpassword, name='newpassword'),
     url(r'^redirecting', views.redirecting, name='redirecting'),
-
+    url(r'^showdel/(?P<del_id>[0-9]+)', views.showdel, name='showdel'),
+    url(r'^edit_form/(?P<edit_id>[0-9]+)', views.edit_form, name='edit_form'),
 
 
 ]
