@@ -14,6 +14,9 @@ class SignUp(forms.ModelForm):
         widgets = {
             'password': PasswordInput(render_value=False)
         }
+
+
+
     MIN_LENGTH = 8
     def clean(self):
         password = self.cleaned_data['password']

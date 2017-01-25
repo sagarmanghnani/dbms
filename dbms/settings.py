@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'datetimewidget',
     'bootstrap3',
     'bootstrapform',
+    'location_field.apps.DefaultConfig'
 
 
 

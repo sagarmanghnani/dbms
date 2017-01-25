@@ -2,42 +2,62 @@
 {% load bootstrap3 %}
 {% load bootstrap %}
 {% bootstrap_messages %}
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <title> Showevent </title>
     <link rel="stylesheet" type="text/css" href={% static 'css/bootstrap.min.css' %}>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'css/panel.css' %}">
     <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/sagar.js' %}"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.dropdown-toggle').dropdown();
+    });
+
+</script>
+
 </head>
 <body>
-    <div class="row">
-        <div class="col-md-8">
-            <h2 class="text-center">Find a Meetup</h2>
+    <nav class="navbar navbar-inverse" role="navigation">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{% url 'website:showevents' %}">Meetup</a>
         </div>
-        <div class="col-md-4">
-            <div class="row">
-                <div class="col-md-5">
-                    <br>
-                    <a href="{% url 'website:event' %}"><button type="submit" class="btn btn-danger">Create Meetup</button></a>
-                </div>
-                <div class="col-md-7">
-                    <a href="{% url 'website:city' %}"><small><h3>Show events in city</h3></small></a>
-                </div>
-            </div>
-        </div>
-    </div>
+        <ul class="nav navbar-nav">
+
+                <li><a href="{% url 'website:event' %}">Create Meetup</a></li>
+                <li><a href="{% url 'website:eventregistration' %}">Register Event</a> </li>
+                <li><a href="{% url 'website:userevent' %}">Registered Event</a> </li>
+                <li><a href="{% url 'website:all_event' %}">All event </a> </li>
+                <li><a href="{% url 'website:city' %}">City event</a></li>
+                <li><a href="{% url 'website:upcomingevent' %}"><span class="glyphicon glyphicon-time"></span> Upcoming event</a></li>
+
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown wid"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span>User<span class="caret"></span></a>
+                 <ul class="dropdown-menu">
+                    <li><a href="{% url 'website:userprofile' %}">Profile</a></li>
+                     <li><a href="#">Change Password</a></li>
+                    <li><a href="{% url 'website:demo' %}">Logout</a></li>
+                    </ul>
+            </li>
+        </ul>
+    </nav>
+    <br>
     <div class="container-fluid">
          <div class="row">
             {% for foo in sh_event %}
                 <div class="col-md-4">
                     <div class="panel panel-default well">
                         <div class="panel-body">
-                            <div class="imgwrapper">
+                            <div class="imgwrapper ">
                                 <a href="{% url 'website:registerevent' foo.id %}">
                                     {% if foo.event_img %}
-                                        <img src="{{ foo.event_img.url }}" class="img-responsive center-block">
+                                        <img src="{{ foo.event_img.url }}" class="img-responsive center-block widding">
                                     {% else %}
                                         <h3> No image to display </h3>
                                     {% endif %}
@@ -51,10 +71,10 @@
                                     <button class="btn btn-success" data-toggle="collapse" data-target="#demo{{ forloop.counter }}">viewinfo</button>
                                 </div>
                                 <div class="col-xs-4">
-                                    <a href="{% url 'website:showdel' foo.id %}"><button class="btn btn-danger">delete</button></a>
+                                    <a href="{% url 'website:showdel' foo.id %}"><button class="btn btn-danger deleted">delete</button></a>
                                 </div>
                                 <div class="col-xs-4">
-                                    <a href="{% url 'website:edit_form' foo.id %}"><button class="btn btn-success">edit</button> </a>
+                                    <a href="{% url 'website:edit_form' foo.id %}"><button class="btn btn-success" onclick="myfunc()">edit</button></a>
                                 </div>
                             </div>
                             <div class="row">
@@ -68,5 +88,10 @@
         {% endfor %}
         </div>
     </div>
+<script>
+    function myfunc() {
+        confirm("press ok");
+    }
+</script>
 </body>
 </html>
