@@ -1,0 +1,45 @@
+{% load staticfiles %}
+{% load bootstrap3 %}
+{% load bootstrap %}
+{% bootstrap_messages %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>paging</title>
+    <link rel="stylesheet" type="text/css" href={% static 'css/bootstrap.min.css' %}>
+   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/panel.css' %}">
+</head>
+<body>
+{% for foo in pager %}
+    <ul>
+        <li>{{ foo.eventname }}</li>
+    </ul>
+{% endfor %}
+
+{% if pager.has_other_pages %}
+  <ul class="pagination">
+    {% if pager.has_previous %}
+      <li><a href="?page={{ pager.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in pager.paginator.page_range %}
+      {% if pager.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if pager.has_next %}
+      <li><a href="?page={{ pager.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}

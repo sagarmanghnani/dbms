@@ -9,6 +9,8 @@ import datetime
 from django.contrib.auth.hashers import make_password, check_password
 from django.db.models import Q
 from website.models import SignNer, EvenT, Question
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 
 
@@ -92,7 +94,17 @@ def showevents(request):
     if loggedin is True:
         usernamer = request.session['usernamer']
         sh_event = EvenT.objects.filter(Q(user=SignNer.objects.get(username=usernamer)) & Q(flag=True))
-        return render(request, 'website/showevent.html', {'sh_event': sh_event})
+        paginator = Paginator(sh_event, 6)
+        page = request.GET.get('page')
+        try:
+            pager = paginator.page(page)
+        except PageNotAnInteger:
+            pager = paginator.page(1)
+        except EmptyPage:
+            pager = paginator.page(paginator.num_pages)
+
+        return render(request, 'website/showevent.html', {'sh_event': sh_event, 'pager':pager})
+
     else:
         return HttpResponse("no user to show event")
 
@@ -215,8 +227,17 @@ def show_reg_events(request):
         e1 = EvenT.objects.filter(~Q(user = s2) & ~Q(flag=False))
         e3 = EvenT.objects.filter(id__in = s2.reg_event.all())
         reg_eventing = e1.exclude(id__in = e3)
+        paginator = Paginator(reg_eventing, 6)
+        page = request.GET.get('page')
+        try:
+            pager = paginator.page(page)
+        except PageNotAnInteger:
+            pager = paginator.page(1)
+        except EmptyPage:
+            pager = paginator.page(paginator.num_pages)
+
         if reg_eventing:
-            return render(request, 'website/regevents.html', {'reg_eventing' : reg_eventing, 's2' : s2, 'e1' : e1, 'e3' : e3 })
+            return render(request, 'website/regevents.html', {'reg_eventing' : reg_eventing, 's2' : s2, 'e1' : e1, 'e3' : e3, 'pager':pager })
         else:
             return HttpResponse("No event to register for")
     else:
@@ -228,10 +249,12 @@ def registerevent(request, event_id):
             signner_obj = SignNer.objects.get(username=usernamer)
             event_obj = EvenT.objects.get(id= event_id)
             signner_obj.reg_event.add(event_obj)
-            return HttpResponse("you are registered for the event")
+
         else:
             sub = EvenT.objects.get(id = event_id)
-            return render(request, 'website/citydetail.html', {'sub' : sub})
+            regusers = SignNer.objects.filter(reg_event__id=event_id)
+            counting = regusers.count()
+            return render(request, 'website/citydetail.html', {'sub' : sub, 'regusers':regusers, 'counting':counting})
     else:
         return HttpResponse("user not logged in")
 
@@ -401,16 +424,26 @@ def all_event(request):
         return render(request, 'website/allevent.html', {'events':events})
     else:
         return HttpResponse("user not logged in")
+
 def userprofile(request):
     if loggedin is True:
         usernamer = request.session['usernamer']
-        sign = SignNer.objects.get(username=usernamer)
-        return render(request, 'website/userprofile.html', {'sign':sign})
+        events = EvenT.objects.all()
+        paginator = Paginator(events, 3)  # Show 25 contacts per page
+
+        pageing = request.GET.get('page')
+        # here pageing is just a variable
+        try:
+            pager = paginator.page(pageing)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            pager = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            pager = paginator.page(paginator.num_pages)
+        return render(request, 'website/paging.html', {'pager':pager})
     else:
-        return HttpResponse("user not logged in")
+        return HttpResponse("congrats")
 
 
-def eventings(request):
-    usernamer = request.session['usernamer']
-    events = EvenT.objects.exclude(Q(flag=False,user=(SignNer.objects.get(username=usernamer))))
-    return render(request, 'website/trying.html', {'events':events})
+

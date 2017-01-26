@@ -31,7 +31,5 @@ urlpatterns = [
     url(r'^showdel/(?P<del_id>[0-9]+)', views.showdel, name='showdel'),
     url(r'^edit_form/(?P<edit_id>[0-9]+)', views.edit_form, name='edit_form'),
     url(r'^all_event', views.all_event, name='all_event'),
-    url(r'^userprofile', views.userprofile, name='userprofile'),
-    url(r'^eventings', views.eventings, name='eventings')
-
-]
+    url(r'^userprofile', views.userprofile, name='userprofile')
+    ]

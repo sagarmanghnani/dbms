@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'datetimewidget',
     'bootstrap3',
     'bootstrapform',
-    'location_field.apps.DefaultConfig'
+    'location_field.apps.DefaultConfig',
+
 
 
 
@@ -57,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware'
+
 ]
 
 ROOT_URLCONF = 'dbms.urls'

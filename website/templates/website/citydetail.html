@@ -1,27 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>details_event</title>
-</head>
-<body>
-<ul>
-    <li>
-        {{ sub.eventname }}
-    </li>
-    <li>
-        {{ sub.eventplace }}
-    </li>
-    <li>
-        {{ sub.user }}
-    </li>
-    <li>
-        {{ sub.about_event }}
-    </li>
-</ul>
+{% extends 'website/base.html' %}
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-xs-8">
+         <div class="row">
+             <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h1 class="text-center">{{ sub.eventname }}</h1>
+                    </div>
+                </div>
+             </div>
+         </div>
+    </div>
+    <div class="col-md-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            {% if sub.event_img %}
+                                <img src="{{ sub.event_img.url }}" class="img-responsive">
+                            {% else %}
+                                <h2><small>No image</small></h2>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="panel panel-default">
+                        <div class="panel-default">
+                            <div class="row">
+                                <div class="col-md-12" style="margin-left: 15px">
+                                    <h4 class="text-left">{{ sub.about_event }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
+</div>
 <form action="" method="post">
     {% csrf_token %}
     <button type="submit">Register</button>
 </form>
-</body>
-</html>
+{% endblock %}
