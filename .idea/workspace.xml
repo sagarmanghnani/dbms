@@ -4,12 +4,7 @@
     <list default="true" id="5c04942d-d914-4d2b-8c13-0879285c76f9" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dbms/settings.py" afterPath="$PROJECT_DIR$/dbms/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/website/templates/website/base.html" afterPath="$PROJECT_DIR$/website/templates/website/base.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/website/templates/website/citydetail.html" afterPath="$PROJECT_DIR$/website/templates/website/citydetail.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/website/templates/website/regevents.html" afterPath="$PROJECT_DIR$/website/templates/website/regevents.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/website/templates/website/showevent.html" afterPath="$PROJECT_DIR$/website/templates/website/showevent.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/website/urls.py" afterPath="$PROJECT_DIR$/website/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/website/views.py" afterPath="$PROJECT_DIR$/website/views.py" />
     </list>
     <ignored path="dbms.iws" />
@@ -83,8 +78,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/website/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3690">
-              <caret line="256" column="116" selection-start-line="256" selection-start-column="116" selection-end-line="256" selection-end-column="116" />
+            <state relative-caret-position="120">
+              <caret line="251" column="51" selection-start-line="251" selection-start-column="51" selection-end-line="251" selection-end-column="51" />
               <folding>
                 <element signature="e#24#63#0" expanded="true" />
               </folding>
@@ -95,9 +90,11 @@
       <file leaf-file-name="citydetail.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/website/templates/website/citydetail.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="555">
-              <caret line="37" column="77" selection-start-line="37" selection-start-column="77" selection-end-line="37" selection-end-column="77" />
-              <folding />
+            <state relative-caret-position="76">
+              <caret line="60" column="110" selection-start-line="60" selection-start-column="110" selection-end-line="60" selection-end-column="110" />
+              <folding>
+                <element signature="e#4429#4454#0#HTML" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -107,7 +104,9 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="585">
               <caret line="39" column="33" selection-start-line="39" selection-start-column="33" selection-end-line="39" selection-end-column="33" />
-              <folding />
+              <folding>
+                <element signature="e#1352#1359#0#HTML" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -229,6 +228,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -299,7 +299,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -880,36 +879,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/website/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="7" column="30" selection-start-line="7" selection-start-column="30" selection-end-line="7" selection-end-column="30" />
-          <folding>
-            <element signature="e#1#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/website/templates/website/paging.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="39" column="33" selection-start-line="39" selection-start-column="33" selection-end-line="39" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/website/templates/website/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1155">
-          <caret line="77" column="14" selection-start-line="77" selection-start-column="14" selection-end-line="77" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dbms/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="660">
           <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/website/templates/website/regevents.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="27" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="27" />
           <folding />
         </state>
       </provider>
@@ -942,18 +923,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/website/templates/website/regevents.html">
+    <entry file="file://$PROJECT_DIR$/website/forms.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
-          <caret line="3" column="27" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="27" />
+          <caret line="7" column="30" selection-start-line="7" selection-start-column="30" selection-end-line="7" selection-end-column="30" />
+          <folding>
+            <element signature="e#1#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/website/templates/website/paging.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="585">
+          <caret line="39" column="33" selection-start-line="39" selection-start-column="33" selection-end-line="39" selection-end-column="33" />
+          <folding>
+            <element signature="e#1352#1359#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/website/templates/website/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1155">
+          <caret line="77" column="14" selection-start-line="77" selection-start-column="14" selection-end-line="77" selection-end-column="14" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/website/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3690">
-          <caret line="256" column="116" selection-start-line="256" selection-start-column="116" selection-end-line="256" selection-end-column="116" />
+        <state relative-caret-position="120">
+          <caret line="251" column="51" selection-start-line="251" selection-start-column="51" selection-end-line="251" selection-end-column="51" />
           <folding>
             <element signature="e#24#63#0" expanded="true" />
           </folding>
@@ -962,9 +963,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/website/templates/website/citydetail.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="37" column="77" selection-start-line="37" selection-start-column="77" selection-end-line="37" selection-end-column="77" />
-          <folding />
+        <state relative-caret-position="76">
+          <caret line="60" column="110" selection-start-line="60" selection-start-column="110" selection-end-line="60" selection-end-column="110" />
+          <folding>
+            <element signature="e#4429#4454#0#HTML" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

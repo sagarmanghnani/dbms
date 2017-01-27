@@ -249,8 +249,9 @@ def registerevent(request, event_id):
             signner_obj = SignNer.objects.get(username=usernamer)
             event_obj = EvenT.objects.get(id= event_id)
             signner_obj.reg_event.add(event_obj)
-
+            return HttpResponse('you are registered')
         else:
+
             sub = EvenT.objects.get(id = event_id)
             regusers = SignNer.objects.filter(reg_event__id=event_id)
             counting = regusers.count()
